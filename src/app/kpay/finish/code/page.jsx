@@ -44,7 +44,7 @@ function CodeForm() {
           src="/2-143.jpg"
           alt="Burgan Bank"
           width={200}
-          height={60}
+          height={95}
           className="mb-3"
         />
         <h5 className="card-title text-primary fw-bold">تم إرسال رمز التحقق إليك</h5>
