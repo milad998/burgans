@@ -41,7 +41,7 @@ function CodeForm() {
     <div className="card text-center shadow p-4" style={{ maxWidth: "400px" }}>
       <div className="card-body">
         <Image
-          src="/baner.jpeg"
+          src="/2-143.jpg"
           alt="Burgan Bank"
           width={200}
           height={60}
