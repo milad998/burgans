@@ -25,6 +25,7 @@
 
 .knetLogo {
   width: 420px;
+  height: 139px;
 }
 
 .knetInfo {
@@ -197,7 +198,8 @@
   }
 
   .knetLogo {
-    width: 80px;
+    width: 100%;
+    height: 109px;
   }
 
   .knetInfo {
