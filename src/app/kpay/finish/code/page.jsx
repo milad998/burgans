@@ -51,13 +51,15 @@ function CodeForm() {
         <p className="text-muted">يرجى إدخاله لإتمام العملية</p>
 
         <input
-          type="password"
-          className="form-control text-center mb-3"
-          placeholder="* * * * * *"
-          dir="ltr"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-        />
+  type="text"
+  inputMode="numeric"
+  pattern="\d*"
+  className="form-control text-center mb-3"
+  placeholder="123456"
+  dir="ltr"
+  value={code}
+  onChange={(e) => setCode(e.target.value)}
+/>
 
         <button className="btn btn-link text-decoration-none mb-3 text-primary">
           أرسل الرمز مجددًا
