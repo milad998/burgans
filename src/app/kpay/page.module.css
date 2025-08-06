@@ -13,6 +13,7 @@
   width: 100%;
   max-width: 450px;
   box-sizing: border-box;
+  padding:70px 0;
 }
 
 .knetHeader {
@@ -39,6 +40,9 @@
   color: black;
 }
 
+.knetInfo img{
+  align-self: center;
+}
 .knetInfoRow {
   display: flex;
   justify-content: space-between;
@@ -136,7 +140,10 @@
   color: #000;
   margin-right: 6px;
 }
-
+.expRow div input{
+  width: 90px;
+  margin-left: 15px;
+}
 .submit {
   background: #007bff;
   color: #fff;
