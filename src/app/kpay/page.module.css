@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px 20px;
+  padding: 0px 15px;
   min-height: 100vh;
 }
 
@@ -12,7 +12,6 @@
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 450px;
-  padding: 20px;
   box-sizing: border-box;
 }
 
@@ -54,10 +53,7 @@
 .knetForm {
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
   padding: 20px;
-  border: 1px solid black;
-  border-radius: 5px;
 }
 
 .knetForm hr {
@@ -162,20 +158,25 @@
 /* ✅ استجابة الشاشات الصغيرة (أندرويد) */
 @media (max-width: 480px) {
   .knetForm div {
-    flex-direction: column;
-    gap: 6px;
+            flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        direction: ltr;
   }
 
   .knetForm div input,
   .cardInput input,
-  .cardInput select,
-  .knetForm div div select {
-    width: 100%;
-    font-size: 12px;
+  .cardInput select
+  {
+    width: 228px;
+        font-size: 10px;
   }
-
+.knetForm div div select {
+      width: 114px;
+        font-size: 10px;
+}
   .knetForm > div {
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .cardInput {
@@ -183,12 +184,12 @@
   }
 
   .expRow {
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .cancel,
   .submit {
-    font-size: 12px;
+    font-size: 10px;
     padding: 10px 0;
   }
 
