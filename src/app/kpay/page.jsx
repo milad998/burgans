@@ -56,8 +56,9 @@ export default function KnetPage() {
         </div>
 
         <div className={styles.knetInfo}>
+             <Image src={kibLo} alt="KIB Logo"  width={120}/>
           <div className={styles.knetInfoRow}>
-            <Image src={kibLo} alt="KIB Logo"  width={80}/>
+         
             <span className={styles.knetInfoLabel}>Merchant:</span>
             <span>Tap Payments EPSP</span>
           </div>
