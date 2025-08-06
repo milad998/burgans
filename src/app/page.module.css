@@ -1,0 +1,197 @@
+.page {
+  background-color: #fff;
+  min-height: 100vh;
+  padding: 2rem;
+  direction: rtl;
+  font-family: sans-serif;
+}
+
+.main {
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+  width: 100%;
+  padding: 1rem;
+}
+
+.headerBox {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  margin: 0 auto;
+  height: auto;
+  width: 100%;
+  max-width: 500px;
+  align-items: center;
+  background-color: rgba(237, 108, 2, 0.15);
+  border-radius: 16px;
+  box-sizing: border-box;
+  text-align: center;
+  padding-bottom: 85px;
+}
+
+.icon {
+  width: 64px;
+  height: 64px;
+  fill: currentcolor;
+  color: rgb(237, 108, 2);
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.successText {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.amountBox {
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.1rem;
+  margin-bottom: 29px;
+  margin-top: 10px;
+}
+
+.amountMain {
+  font-size: 30px;
+  color: #333;
+}
+
+.amountDecimal {
+  font-size: 20px;
+  color: #919090;
+}
+
+.currency {
+  font-size: 20px;
+  margin-right: 2px;
+  color: #333;
+}
+
+.nameperson {
+  color: #333;
+}
+
+.paymentBox {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  margin: -27px auto;
+  backdrop-filter: blur(7px);
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.toPerson {
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #424242;
+}
+
+.paymentMethod {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: #e6f5ff;
+  color: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.notesBox {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.notesBox textarea {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  resize: none;
+}
+
+.detailsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detailsGrid div {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #333;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* تظليل */
+  backdrop-filter: blur(4px); /* ضبابية الخلفية */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* ✅ يجعل المودال في الأعلى */
+  padding-top: 50px; /* مسافة من الأعلى */
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+
+/* ✅ Media Query لأجهزة الموبايل */
+@media screen and (max-width: 576px) {
+  .headerBox,
+  .paymentBox {
+    padding: 12px;
+  }
+
+  .icon {
+    font-size: 48px;
+  }
+
+  .amountMain {
+    font-size: 24px;
+  }
+
+  .amountDecimal,
+  .currency {
+    font-size: 16px;
+  }
+
+  .detailsGrid div {
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,11 @@
+node_modules/
+.next/
+public/idea-IC-*/
+*.jar
+*.so
+*.zip
+*.exe
+*.dll
+*.tar.gz
+.DS_Store
+.env
