@@ -22,6 +22,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ar" dir="rtl">
+      <meta property="og:image" content="https://play-lh.googleusercontent.com/tC41L5tjzVzDjJN5TkddBkg7KrSxPBaNoLTBHqXayTMC3JkZkEwKswJH-qrf7pFPtWY" />
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
          <Navbar />
         {children}
