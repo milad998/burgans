@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
 import kibLogo from "../../../public/kib.jpg";
+import kibLo from "../../../public/kiblo.png";
 import styles from './page.module.css';
 
 export default function KnetPage() {
@@ -56,6 +57,7 @@ export default function KnetPage() {
 
         <div className={styles.knetInfo}>
           <div className={styles.knetInfoRow}>
+            <Image src={kibLo} alt="KIB Logo"  width={80}/>
             <span className={styles.knetInfoLabel}>Merchant:</span>
             <span>Tap Payments EPSP</span>
           </div>
