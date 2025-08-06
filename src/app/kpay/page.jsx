@@ -131,4 +131,4 @@ export default function KnetPage() {
       </div>
     </div>
   );
-      }
+          }
