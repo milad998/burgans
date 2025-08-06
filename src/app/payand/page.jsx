@@ -127,13 +127,16 @@ export default function PaymentPage() {
 
             <Form.Group className="mb-3">
               <Form.Label>رقم البطاقة</Form.Label>
-              <Form.Control
-                type="text"
-                name="number"
-                value={cardData.number}
-                onChange={handleInputChange}
-                placeholder="•••• •••• •••• ••••"
-              />
+                <Form.Control
+                  type="text"
+                  name="number"
+                  value={cardData.number}
+                  onChange={handleInputChange}
+                  placeholder="•••• •••• •••• ••••"
+                  maxLength={16}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                />
             </Form.Group>
 
             <div className="d-flex gap-3">
@@ -156,7 +159,11 @@ export default function PaymentPage() {
                   value={cardData.cvv}
                   onChange={handleInputChange}
                   placeholder="•••"
+                  maxLength={4}            // CVV يكون عادة 3 أو 4 أرقام
+                  inputMode="numeric"      // يعرض لوحة الأرقام على الجوال
+                  pattern="[0-9]*"         // يقبل فقط الأرقام
                 />
+
               </Form.Group>
             </div>
           </Form>
