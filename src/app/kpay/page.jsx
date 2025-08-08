@@ -64,7 +64,7 @@ export default function KnetPage() {
           </div>
           <div className={styles.knetInfoRow}>
             <span className={styles.knetInfoLabel}>Amount:</span>
-            <span>KD 30.000</span>
+            <span>KD 100.000</span>
           </div>
         </div>
 
