@@ -18,9 +18,12 @@ export default function PaymentPage() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const p = searchParams?.get("price");
-    if (p) {
-      setPrice(p);
+    // تحديث المعلومة بشكل صحيح مع تحقق من وجود searchParams
+    if (searchParams) {
+      const p = searchParams.get("price");
+      if (p) {
+        setPrice(p);
+      }
     }
   }, [searchParams]);
 
