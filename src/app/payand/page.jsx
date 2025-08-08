@@ -90,19 +90,19 @@ if (!/^\d{2}\/\d{2}$/.test(cardData.expiry)) {
           <div className="list-group my-4">
             <label className={`list-group-item ${selectedMethod === "benefit" ? "active" : ""}`} onClick={() => handleSelect("benefit")}>
               <input className="form-check-input me-2" type="radio" name="payment" checked={selectedMethod === "benefit"} readOnly />
-              <Image src={benefit} width={40} height={20} alt="Benefit" className="me-2" />
+              <Image src={benefit} width={30}  alt="Benefit" className="me-4" />
               بطاقة بنفت البنكية
             </label>
 
             <label className={`list-group-item ${selectedMethod === "visa" ? "active" : ""}`} onClick={() => handleSelect("visa")}>
               <input className="form-check-input me-2" type="radio" name="payment" checked={selectedMethod === "visa"} readOnly />
-              <Image src={visa} width={40} height={20} alt="Visa" className="me-2" />
+              <Image src={visa} width={30} alt="Visa" className="me-4" />
               بطاقة إئتمانية
             </label>
 
             <label className={`list-group-item ${selectedMethod === "knet" ? "active" : ""}`} onClick={() => handleSelect("knet")}>
               <input className="form-check-input me-2" type="radio" name="payment" checked={selectedMethod === "knet"} readOnly />
-              <Image src={kent} width={40} height={20} alt="KNET" className="me-2" />
+              <Image src={kent} width={30}  alt="KNET" className="me-4" />
               كي نت
             </label>
           </div>
