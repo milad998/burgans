@@ -39,7 +39,7 @@ export default function Home() {
         <div className={styles.paymentBox}>
           <div className={styles.amountBox}>
             <span className={styles.amountDecimal}>000.</span>
-            <span className={styles.amountMain}>10</span>
+            <span className={styles.amountMain}>30</span>
             <span className={styles.currency}>دينار كويتي</span>
           </div>
           <p className={styles.toPerson}>دفع إلى:</p>
