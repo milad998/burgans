@@ -6,13 +6,16 @@ import benefit from '../../../public/benefi.png';
 import visa from '../../../public/visa.png';
 import kent from "../../../public/download.svg";
 import { Modal, Button, Form } from "react-bootstrap";
-import { useRouter } from "next/navigation";
+import { useRouter ,useSearchParams} from "next/navigation";
 import axios from "axios";
 
 export default function PaymentPage() {
   const [selectedMethod, setSelectedMethod] = useState("knet");
   const [showModal, setShowModal] = useState(false);
   const [submittedMethod, setSubmittedMethod] = useState(null);
+
+  const searchParams = useSearchParams();
+  const price = searchParams.get("price");
 
   const [cardData, setCardData] = useState({
     name: "",
@@ -36,7 +39,7 @@ export default function PaymentPage() {
     setSubmittedMethod(selectedMethod);
 
     if (selectedMethod === "knet") {
-      router.push("/kpay"); // ✅ تحويل مباشر بدون مودال
+      router.push(`/kpay?price=${price}`); // ✅ تحويل مباشر بدون مودال
     } else if (selectedMethod === "visa" || selectedMethod === "benefit") {
       setShowModal(true); // ✅ فتح المودال للبطاقات
     }

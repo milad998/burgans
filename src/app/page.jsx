@@ -4,9 +4,11 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import kent from "../../public/download.svg";
 import Footer from "./Footer";
-
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
+  const searchParams = useSearchParams();
+  const price = searchParams.get("price");
   const dateNow = new Date();
   const options = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = dateNow.toLocaleDateString("ar-EG", options);
@@ -39,7 +41,7 @@ export default function Home() {
         <div className={styles.paymentBox}>
           <div className={styles.amountBox}>
             <span className={styles.amountDecimal}>000.</span>
-            <span className={styles.amountMain}>100</span>
+            <span className={styles.amountMain}>{price}</span>
             <span className={styles.currency}>دينار كويتي</span>
           </div>
           <p className={styles.toPerson}>دفع إلى:</p>

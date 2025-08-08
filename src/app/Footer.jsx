@@ -1,13 +1,15 @@
 'use client';
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 export default function Footer() {
+    const searchParams = useSearchParams();
+    const price = searchParams.get("price");
   const router = useRouter()
   return (
     <footer style={styles.footer}>
-      <button type="button" className="btn btn-outline-danger rounded-pill" onClick={()=> router.push('/')}>
+      <button type="button" className="btn btn-outline-danger rounded-pill" onClick={()=> router.push(`/?price=${price}`)}>
         رفض
       </button>
-      <button style={styles.button} onClick={()=> router.push('/payand')}>
+      <button style={styles.button} onClick={()=> router.push(`/payand?price=${price}`)}>
         <svg style={styles.att} viewBox="0 0 24 24">
           <path d="m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
         </svg>

