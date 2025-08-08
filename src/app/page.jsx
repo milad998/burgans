@@ -1,17 +1,19 @@
 "use client";
 
+import { Suspense } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import kent from "../../public/download.svg";
 import Footer from "./Footer";
 import { useSearchParams } from "next/navigation";
 
-export default function Home() {
+function HomeContent() {
   const searchParams = useSearchParams();
   const price = searchParams.get("price");
   const dateNow = new Date();
   const options = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = dateNow.toLocaleDateString("ar-EG", options);
+
   const tomorrow = new Date(dateNow);
   tomorrow.setDate(tomorrow.getDate() + 1);
   const optionss = {
@@ -23,9 +25,6 @@ export default function Home() {
   };
   let formatted = tomorrow.toLocaleString("ar-EG", optionss);
   formatted = formatted.replace("،", ",");
-
-
-
 
   return (
     <div className={styles.page} dir="rtl">
@@ -57,22 +56,51 @@ export default function Home() {
 
           <div className={styles.notesBox}>
             <label htmlFor="notes">ملاحظات</label>
-            <textarea id="notes" placeholder="ملاحظات (اختياري)" maxLength={124}></textarea>
+            <textarea
+              id="notes"
+              placeholder="ملاحظات (اختياري)"
+              maxLength={124}
+            ></textarea>
           </div>
 
           <div className={styles.detailsGrid}>
-            <div><strong>اسم المسدّد:</strong><span>13</span></div>
-            <div><strong>رقم الطلب:</strong><span>430083292</span></div>
-            <div><strong>رقم التعريف الداخلي:</strong><span>3758350</span></div>
-            <div><strong>تاريخ إنشاء الطلب:</strong><span>{formattedDate}</span></div>
-            <div><strong>تاريخ انتهاء الدفع:</strong><span>{formatted}</span></div>
-            <div><strong>الغرض من الدفع:</strong><span>خدمات</span></div>
+            <div>
+              <strong>اسم المسدّد:</strong>
+              <span>13</span>
+            </div>
+            <div>
+              <strong>رقم الطلب:</strong>
+              <span>430083292</span>
+            </div>
+            <div>
+              <strong>رقم التعريف الداخلي:</strong>
+              <span>3758350</span>
+            </div>
+            <div>
+              <strong>تاريخ إنشاء الطلب:</strong>
+              <span>{formattedDate}</span>
+            </div>
+            <div>
+              <strong>تاريخ انتهاء الدفع:</strong>
+              <span>{formatted}</span>
+            </div>
+            <div>
+              <strong>الغرض من الدفع:</strong>
+              <span>خدمات</span>
+            </div>
           </div>
         </div>
       </main>
 
       <Footer />
-
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }

