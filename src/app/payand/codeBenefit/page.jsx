@@ -40,14 +40,8 @@ function CodeForm() {
   return (
     <div className="card text-center shadow p-4" style={{ maxWidth: "400px" }}>
       <div className="card-body">
-        <Image
-          src="/benefi.png"
-          alt="Benefit Bank"
-          width={70}
-          height={95}
-          className="mb-3"
-        />
-        <h5 className="card-title text-danger fw-bold">تم إرسال رمز التحقق إليك</h5>
+ 
+        <h5 className="card-title text-danger fw-bold mt-5">تم إرسال رمز التحقق إليك</h5>
         <p className="text-muted">يرجى إدخاله لإتمام العملية</p>
 
         <input
