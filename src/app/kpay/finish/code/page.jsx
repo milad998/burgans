@@ -55,7 +55,7 @@ function CodeForm() {
   inputMode="numeric"
   pattern="\d*"
   className="form-control text-center mb-3"
-  placeholder="123456"
+  placeholder=" "
   dir="ltr"
   value={code}
   onChange={(e) => setCode(e.target.value)}
