@@ -1,17 +1,24 @@
 .page {
-  background-color: #fff;
+    background: linear-gradient(to right, #bd1e1e, #690707);
   min-height: 100vh;
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content:flex-start;
+  align-items: center;
   direction: rtl;
   font-family: sans-serif;
+  gap: 5px;
+  padding-top: 10px;
 }
-
+.names{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .main {
-  max-width: 600px;
   margin: 0 auto;
   background: white;
   width: 100%;
-  padding: 1rem;
 }
 
 .headerBox {
@@ -55,9 +62,6 @@
   display: flex;
   justify-content: center;
   align-items: baseline;
-  gap: 0.1rem;
-  margin-bottom: 29px;
-  margin-top: 10px;
 }
 
 .amountMain {
@@ -72,7 +76,6 @@
 
 .currency {
   font-size: 20px;
-  margin-right: 2px;
   color: #333;
 }
 
@@ -86,9 +89,9 @@
   display: flex;
   flex-direction: column;
   margin: -27px auto;
-  backdrop-filter: blur(7px);
-  background-color: rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(0, 0, 0, 0.12);
+
+  background-color: rgb(255, 255, 255);
+
   border-radius: 16px;
   padding: 16px;
   box-sizing: border-box;
@@ -128,10 +131,26 @@
 
 .detailsGrid {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   gap: 10px;
 }
+.closes{
+  width: 95px;
+    border-radius: 17px;
+    padding: 3px;
+    border: 0;
+        background-color: #49ca38;
 
+    color: white;
+}
+.aseccuss{
+    width: 95px;
+    border-radius: 17px;
+    padding: 3px;
+    border: 0;
+    background-color: #ff4052;
+    color: white;
+}
 .detailsGrid div {
   display: flex;
   flex-direction: column;
@@ -173,25 +192,45 @@
 
 /* ✅ Media Query لأجهزة الموبايل */
 @media screen and (max-width: 576px) {
-  .headerBox,
-  .paymentBox {
-    padding: 12px;
+  .page img{
+    margin-bottom: 30px;
   }
-
-  .icon {
-    font-size: 48px;
-  }
-
-  .amountMain {
-    font-size: 24px;
-  }
-
-  .amountDecimal,
-  .currency {
-    font-size: 16px;
-  }
-
-  .detailsGrid div {
+  .paymentBox div p{
     font-size: 13px;
+  }
+  .infoss{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .names h5{
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 50px;
+  }
+  .boxbox{
+        display: flex
+;
+    flex-direction: row-reverse;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+  .amountBox{
+        display: flex
+;
+    flex-direction: column-reverse;
+  }
+  .amountDecimal{
+    font-size: 13px;
+    margin: 0;
+  }
+  .currency{
+    font-size: 13px;
+    margin: 0;
+    font-weight: bold;
+    
+  }
+  .detailsGrid{
+    margin-bottom: 30px;
   }
 }

@@ -1,7 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import 'bootstrap/dist/css/bootstrap.min.css';  // استيراد CSS الخاص ببوتستراب
-import Navbar from "./Navbar";
-
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,7 +22,7 @@ export default function RootLayout({ children }) {
     <html lang="ar" dir="rtl">
       <meta property="og:image" content="https://play-lh.googleusercontent.com/tC41L5tjzVzDjJN5TkddBkg7KrSxPBaNoLTBHqXayTMC3JkZkEwKswJH-qrf7pFPtWY" />
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-         <Navbar />
+  
         {children}
 
       </body>

@@ -3,15 +3,16 @@
   justify-content: center;
   align-items: center;
   padding: 0px 15px;
-  min-height: 100vh;
 }
 
 .knetBox {
-  background: #fff;
-  border-radius: 12px;
+      display: flex
+;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  background: #dddddd;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-  width: 100%;
-  max-width: 450px;
   box-sizing: border-box;
   padding:70px 0;
 }
@@ -58,6 +59,7 @@
   display: flex;
   flex-direction: column;
   padding: 20px;
+  width: 100%;
 }
 
 .knetForm hr {
@@ -214,5 +216,34 @@
     flex-direction: column;
     font-size: 10px;
     gap: 8px;
+    width: 385px;
+        background-color: #fff;
   }
+  .knetForm div input,
+  .cardInput input{
+    width: 175px;
+    height: 20px;
+  }
+  .knetForm{
+    width: 95%;
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+  .dataexp{
+    display: flex;
+    justify-content: space-between;
+  }
+  .dataexp div .formInput{
+    width: 87px;
+  }
+  .knetContainer input:disabled,
+  .knetContainer select:disabled {
+  background-color: white !important;
+  color: black !important;
+  opacity: 1 !important;
+  cursor: not-allowed;
+  border: 1px solid #ccc; /* أو حسب تصميمك */
+}
+
   }
