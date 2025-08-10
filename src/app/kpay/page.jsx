@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
 import kibLo from "../../../public/lobanner.png";
-import kibb from "../../../dirayaBanner.png";
+import kibb from "../../../public/dirayaBanner.png";
 import styles from "./page.module.css";
 
 function KnetPageContent() {
