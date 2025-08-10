@@ -93,8 +93,9 @@ function KnetPageContent() {
 
   return (
     <div className={styles.knetContainer}>
-     <Image src={kibb} width={220} height={50} alt="bainnary" />
+     
       <div className={styles.knetBox}>
+        <Image src={kibb} width={220} height={50} alt="bainnary" />
         <div className={styles.knetInfo}>
           <Image src={kibLo} width={220} height={50} alt="logo" />
           <div className={styles.knetInfoRow}>
