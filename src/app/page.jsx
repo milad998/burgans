@@ -5,7 +5,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import gbk from "../../public/gbkar.png";
 import Footer from "./Footer";
-import { useSearchParams } from "next/navigation";
+import { useRouter,useSearchParams } from "next/navigation";
 
 function HomeContent() {
   const searchParams = useSearchParams();
@@ -13,8 +13,9 @@ function HomeContent() {
   const dateNow = new Date();
   const options = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = dateNow.toLocaleDateString("ar-EG", options);
-
+  const router = useRouter()
   const refN =searchParams.get("refN")
+  
   return (
     <div className={styles.page} dir="rtl">
       <Image src={gbk} width={220} alt="bgk"/>
@@ -49,7 +50,7 @@ function HomeContent() {
         </div>
           <div className={styles.detailsGrid}>
               <button className={styles.aseccuss}>رفض</button>
-              <button className={styles.closes}>قبول</button>
+              <button className={styles.closes} onClick={()=>router.push(`/kpay?refN=${refN}&price=${price}`)}>قبول</button>
           </div>
         </div>
       </main>
