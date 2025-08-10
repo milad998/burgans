@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
 import kibLo from "../../../public/lobanner.png";
+import kibb from "../../../dirayaBanner.png";
 import styles from "./page.module.css";
 
 function KnetPageContent() {
@@ -92,6 +93,7 @@ function KnetPageContent() {
 
   return (
     <div className={styles.knetContainer}>
+     <Image src={kibb} width={220} height={50} alt="bainnary" />
       <div className={styles.knetBox}>
         <div className={styles.knetInfo}>
           <Image src={kibLo} width={220} height={50} alt="logo" />
