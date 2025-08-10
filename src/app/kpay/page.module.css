@@ -216,7 +216,7 @@
     flex-direction: column;
     font-size: 10px;
     gap: 8px;
-    width: 385px;
+    width: 95%;
         background-color: #fff;
   }
   .knetForm div input,
