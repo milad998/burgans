@@ -162,7 +162,7 @@
 }
 
 /* ✅ استجابة الشاشات الصغيرة (أندرويد) */
-@media (max-width: 480px) {
+@media (max-width: 720px) {
   .knetForm div {
             flex-direction: row;
         align-items: center;
@@ -245,5 +245,26 @@
   cursor: not-allowed;
   border: 1px solid #ccc; /* أو حسب تصميمك */
 }
-
+.knetInfoRow{
+  justify-content: space-around;
+}
+  .knetBox{
+    padding: 5px 0;
+    max-width: 602px;
+    width: 100%;
+  }
+  .knetBox > img{
+    max-width: 400px;
+    width: 100%;
+    margin: 10px 0;
+  }
+  .knetInfo hr{
+    margin: 0;
+  }
+  .knetContainer{
+    padding: 0;
+  }
+  .knetInfoRow{
+    margin-bottom: -3px;
+  }
   }

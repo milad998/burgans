@@ -10,9 +10,21 @@ import { useRouter,useSearchParams } from "next/navigation";
 function HomeContent() {
   const searchParams = useSearchParams();
   const price = searchParams.get("price");
-  const dateNow = new Date();
-  const options = { year: "numeric", month: "long", day: "numeric" };
-  const formattedDate = dateNow.toLocaleDateString("ar-EG", options);
+const dateNow = new Date();
+
+const options = {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false, 
+};
+
+const formattedDateTime = dateNow.toLocaleString( options);
+
+
+
   const router = useRouter()
   const refN =searchParams.get("refN")
   
@@ -34,7 +46,7 @@ function HomeContent() {
         </div>
         <div className={styles.infoss}>
           <p >تاريخ الدفع:</p>
-          <p >{formattedDate}</p>
+          <p >{formattedDateTime}</p>
         </div>
         <div className={styles.infoss}>
           <p >المرجع:</p>

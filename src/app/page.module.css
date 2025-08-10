@@ -67,6 +67,7 @@
 .amountMain {
   font-size: 30px;
   color: #333;
+  margin-bottom: -8px;
 }
 
 .amountDecimal {
@@ -135,21 +136,24 @@
   gap: 10px;
 }
 .closes{
-  width: 95px;
-    border-radius: 17px;
-    padding: 3px;
+width: 95px;
+    border-radius: 25px;
+    /* padding: 3px; */
     border: 0;
-        background-color: #49ca38;
-
+    background-color: #44dd07;
     color: white;
+    font-size: 21px;
+    padding: 5px;
 }
 .aseccuss{
-    width: 95px;
-    border-radius: 17px;
-    padding: 3px;
+width: 95px;
+    border-radius: 25px;
+    /* padding: 3px; */
     border: 0;
-    background-color: #ff4052;
+    background-color: #b4071c;
     color: white;
+    font-size: 21px;
+    padding: 5px;
 }
 .detailsGrid div {
   display: flex;
@@ -191,12 +195,16 @@
 
 
 /* ✅ Media Query لأجهزة الموبايل */
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 720px) {
   .page img{
     margin-bottom: 30px;
   }
+  .paymentBox{
+       max-width: 602px;
+  }
   .paymentBox div p{
     font-size: 13px;
+ 
   }
   .infoss{
     display: flex;
@@ -221,8 +229,9 @@
     flex-direction: column-reverse;
   }
   .amountDecimal{
-    font-size: 13px;
-    margin: 0;
+        font-size: 16px;
+        margin: -8px;
+        font-weight: bold;
   }
   .currency{
     font-size: 13px;
