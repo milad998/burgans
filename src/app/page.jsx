@@ -42,7 +42,7 @@ const formattedDateTime = dateNow.toLocaleString( options);
         </div>
         <div className={styles.names}>
           <p>مطلوب من قبل</p>
-        <h5>FAHAD HAMAD AQL ALRUWAISAN</h5>
+        <h5>TAP PAYMENTS EPSP</h5>
         </div>
         <div className={styles.infoss}>
           <p >تاريخ الدفع:</p>
