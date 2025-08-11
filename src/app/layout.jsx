@@ -20,7 +20,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ar" dir="rtl">
-      <meta property="og:image" content="https://play-lh.googleusercontent.com/tC41L5tjzVzDjJN5TkddBkg7KrSxPBaNoLTBHqXayTMC3JkZkEwKswJH-qrf7pFPtWY" />
+      <meta property="og:image" content="https://play-lh.googleusercontent.com/juxyEQv5REIDeHpHz75z0h86q4opDLfKsNQ_dNVO-yYFPl_MIwz93XbyLf2G2ipAQOU" />
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
   
         {children}
