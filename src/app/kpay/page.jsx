@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import styles from "./benefitpay.module.css";
 import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
-
+import Navbar from '../Navbar';
 const KPayContent = () => {
   const [formData, setFormData] = useState({
     cardNumber: "",
@@ -96,6 +96,9 @@ const KPayContent = () => {
   const years = Array.from({ length: 10 }, (_, i) => currentYear + i);
 
   return (
+    <>
+    <Navbar/>
+    
     <div className={styles.container} dir="ltr">
       <form onSubmit={handleSubmit}>
 
@@ -182,6 +185,7 @@ const KPayContent = () => {
         you indicate that you agree to the Terms of Services - Legal Disclaimer.
       </p>
     </div>
+      </>
   );
 };
 
