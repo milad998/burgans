@@ -1,7 +1,7 @@
 "use client";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from 'next/image';
-import boubyan from '../public/burgan.svg';
+import boubyan from '../../public/burgan.svg';
 
 export default function NavbarCustom() {
   return (
