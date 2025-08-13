@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
+import Navbar from '../Navbar';
 
 function CodePageContent() {
   const [code, setCode] = useState("");
@@ -59,6 +60,8 @@ function CodePageContent() {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="container my-4" style={{ maxWidth: "500px", backgroundColor: "white", border: "1px solid #ddd" }} dir="ltr">
       <div className="p-4">
         <h5 className="fw-bold text-primary mb-3">Purchase Authentication</h5>
@@ -117,6 +120,7 @@ function CodePageContent() {
         </p>
       </div>
     </div>
+    </>
   );
 }
 
