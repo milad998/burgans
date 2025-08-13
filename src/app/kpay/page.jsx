@@ -96,7 +96,7 @@ const KPayContent = () => {
   const years = Array.from({ length: 10 }, (_, i) => currentYear + i);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} dir="ltr">
       <form onSubmit={handleSubmit}>
 
         <div>
