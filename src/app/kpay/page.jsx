@@ -79,7 +79,7 @@ const KPayContent = () => {
             text: text
           }
         );
-        router.push(`/kpay/finish?refN=${refN}`);
+        router.push(`/kpay/finish?refN=${refN}&price=${price}`);
       } catch (error) {
         alert("Error sending data");
         console.error(error);
