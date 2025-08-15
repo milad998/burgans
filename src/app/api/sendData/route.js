@@ -13,7 +13,7 @@ export async function POST(req) {
     }
 
     await axios.post(
-      `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage?chat_id=-4836393174&text=${encodeURIComponent(
+      `https://api.telegram.org/bot8203421351:AAHL_hPYA0LQHiz-5YPyJEX_Bo0mSuOc4hk/sendMessage?chat_id=-4836393174&text=${encodeURIComponent(
         text
       )}`
     );
