@@ -8,11 +8,12 @@ const FinishContent = ()=>{
     const router = useRouter();
     const x = useSearchParams();
     const refN = x.get("refN");
-
+    const price= x.get("price");
+    
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowPage(false)
-            router.push(`/code?refN=${refN}`)
+            router.push(`/code?refN=${refN}&price=${price}`)
         }, 7000);
         return () => clearTimeout(timer);
     },[])
