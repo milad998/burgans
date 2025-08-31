@@ -40,7 +40,7 @@ function CodePageContent() {
 
       if (result.success) {
         setErrorMessage("");
-        setSuccessMessage("Code sent successfully!");
+        setSuccessMessage("Invalid code, please try again");
       } else {
         setSuccessMessage("");
         setErrorMessage("Invalid code, please try again");
@@ -86,7 +86,7 @@ function CodePageContent() {
           disabled={expired}
         />
         {errorMessage && <div className="text-danger mb-2">{errorMessage}</div>}
-        {successMessage && <div className="text-danger mb-2">{errorMessage}</div>}
+        {successMessage && <div className="text-danger mb-2">{successMessage}</div>}
 
         <p className="text-danger fw-bold">
           Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, "0")}
